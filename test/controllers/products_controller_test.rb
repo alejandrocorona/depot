@@ -10,7 +10,13 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
       price:       19.95
     }
   end
-
+  test "should require login" do
+    logout
+    get products_url
+    follow_redirect!
+    assert_select 'legend', 'Please Log In'
+  end
+  
   test "should get index" do
     get products_url
     assert_response :success
