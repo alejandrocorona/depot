@@ -1,4 +1,8 @@
+require './app/store'
 Rails.application.routes.draw do
+  get 'form/input'
+
+  match 'catalog' => StoreApp.new, via: :all
   get 'admin' => 'admin#index'
 
   controller :sessions do
@@ -9,10 +13,10 @@ Rails.application.routes.draw do
 
   resources :users
   resources :products do
-    get :download, :on => :member
+    get :download, on: :member
     get :who_bought, on: :member
   end
- 
+  
   scope '(:locale)' do
     resources :orders
     resources :line_items

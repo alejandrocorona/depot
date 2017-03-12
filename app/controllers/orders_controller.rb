@@ -9,7 +9,9 @@ class OrdersController < ApplicationController
 
      # GET /orders.json
      def index
-      @orders = Order.all
+      #@orders = Order.all
+       @orders = Order.order('created_at desc').page(params[:page])
+
     end
 
   # GET /orders/1
@@ -43,8 +45,8 @@ class OrdersController < ApplicationController
       session[:order_id] = @order.id
       OrderMailer.received(@order).deliver_later
 
-format.html { redirect_to store_index_url(locale: I18n.locale), 
-          notice: I18n.t('.thanks') }
+      format.html { redirect_to store_index_url(locale: I18n.locale), 
+        notice: I18n.t('.thanks') }
         format.json { render :show, status: :created,
           location: @order }
         else
